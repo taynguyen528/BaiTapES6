@@ -51,6 +51,7 @@ a:focus {
 ----------------------------------------------------- */
 
 .wrapper {
+    position: relative;
     display: flex;
     width: 100%;
     align-items: stretch;
@@ -146,12 +147,12 @@ a.article:hover {
 }
 
 .sidebar-btn-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
     padding: 15px;
     border-radius: 999px;
-    border: 1px solid red;
+    border: 1px solid #ccc;
+    bottom: 10px;
+    margin-left: 30px;
 }
 
 .sidebar-btn {
@@ -170,9 +171,22 @@ a.article:hover {
     overflow: hidden;
 }
 
-.sidebar-btn span {
-    margin-left: 5px;
-    font-size: 13px;
+.sidebar-btn-wrapper span {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.sidebar-btn-wrapper i {
+    font-size: 20px;
+}
+
+table tr th,
+#tbodySinhVien tr td {
+    white-space: nowrap;
+}
+
+.invalid {
+    color: red;
 }
 /* ---------------------------------------------------
     CONTENT STYLE
