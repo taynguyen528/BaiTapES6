@@ -1,49 +1,57 @@
-import ListPerson from "./Modal/ListPerson.js";
-import Person from "./Modal/Person.js";
-import Student from "./Modal/Student.js";
-import Employee from "./Modal/Employee.js";
-import Customer from "./Modal/Customer.js";
-const userList = new ListPerson();
-const student1 = new Student(
-    "John Doe",
-    "123 Main St",
-    "S001",
-    "john@example.com",
-    80,
-    75,
-    90
-);
-const student2 = new Student(
-    " Doe",
-    "123 Main St",
-    "S002",
-    "john@example.com",
-    80,
-    75,
-    90
-);
-const employee1 = new Employee(
-    "Jane Smith",
-    "456 Oak St",
-    "E001",
-    "jane@example.com",
-    20,
-    50
-);
-const customer1 = new Customer(
-    "Acme Corp",
-    "789 Pine St",
-    "C001",
-    "acme@example.com",
-    "Acme Corp",
-    10000,
-    "Good service"
-);
+const getLocalStorageData = (key) => {
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : null;
+};
 
-userList.addUser(student1);
-userList.addUser(student2);
+const renderTable = (data, tableBodyId) => {
+    const tableBody = document.getElementById(tableBodyId);
+    let htmlContent = "";
+    if (data) {
+        data.forEach((item) => {
+            htmlContent += `
+                <tr>
+                    <td>${item.code}</td>
+                    <td>${item.name}</td>
+                    <td>${item.address}</td>
+                    <td>${item.email}</td>
+                    <td>${item.type}</td> 
+                </tr>
+            `;
+        });
+    }
+    tableBody.innerHTML = htmlContent;
+};
 
-userList.addUser(employee1);
-userList.addUser(customer1);
+const customerListData = getLocalStorageData("customerList");
+const employeeListData = getLocalStorageData("employeeList");
+const studentListData = getLocalStorageData("studentList");
 
-console.log(userList);
+const addTypeToData = (data, type) => {
+    return data.map((item) => ({ ...item, type }));
+};
+
+const customerListDataWithType = addTypeToData(customerListData, "Customer");
+const employeeListDataWithType = addTypeToData(employeeListData, "Employee");
+const studentListDataWithType = addTypeToData(studentListData, "Student");
+
+const allData = [
+    ...customerListDataWithType,
+    ...employeeListDataWithType,
+    ...studentListDataWithType,
+];
+
+renderTable(allData, "tbodyMain");
+
+window.filterUsers = () => {
+    const selectedType = document.getElementById("userType").value;
+    console.log(selectedType);
+    let filteredData;
+
+    if (selectedType === "all") {
+        filteredData = allData;
+    } else {
+        filteredData = allData.filter((user) => user.type === selectedType);
+    }
+
+    renderTable(filteredData, "tbodyMain");
+};

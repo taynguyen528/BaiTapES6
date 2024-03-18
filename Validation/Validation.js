@@ -28,6 +28,15 @@ class Validation {
         document.getElementById(elementErrorID).innerHTML = "";
         return true;
     }
+
+    checkForNegativeNumbers(value, elementErrorID, messageError, flag) {
+        if (value < flag) {
+            document.getElementById(elementErrorID).innerHTML = messageError;
+            return false;
+        }
+        document.getElementById(elementErrorID).innerHTML = "";
+        return true;
+    }
 }
 
 export default Validation;
